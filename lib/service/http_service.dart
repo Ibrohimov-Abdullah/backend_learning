@@ -12,7 +12,7 @@ class Api {
   static const String productsApi = "/products";
 
 
-
+  // static - obyekt yaratmasdna ishlatishga yordam beradi
   static Future<String?> get(String api) async {
 
     final Uri url = Uri.http(baseUrl,api);
@@ -27,7 +27,7 @@ class Api {
   }
 
 
-  static Future<String?> POST(String api, Map<String, dynamic> body) async {
+  static Future<String?> post(String api, Map<String, dynamic> body) async {
     final Uri url = Uri.http(baseUrl, api);
 
     final Response response = await http.post(url, headers: {
@@ -45,6 +45,19 @@ class Api {
     final Uri url = Uri.https(baseUrl, api, param);
 
     final Response response = await http.put(url, body: jsonEncode(body), headers: {
+      "Content-Type": "application/json",
+    });
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return response.body;
+    } else {
+      return null;
+    }
+  }
+
+  static Future<String?> delete(String api, String id, ) async {
+    final Uri url = Uri.https(baseUrl, "$api/$id",);
+
+    final Response response = await http.delete(url, headers: {
       "Content-Type": "application/json",
     });
     if (response.statusCode == 200 || response.statusCode == 201) {
